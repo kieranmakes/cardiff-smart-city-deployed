@@ -1,0 +1,63 @@
+apply plugin: "java-library"
+apply plugin: "application"
+apply plugin: "distribution"
+
+mainClassName = "org.openremote.manager.Main"
+
+dependencies {
+
+    api resolveProject(":container")
+    api resolveProject(":agent")
+    api resolveProject(":model")
+
+    api "org.xerial:sqlite-jdbc:$sqliteVersion"
+
+    api "org.mnode.ical4j:ical4j:$ical4jVersion"
+
+    api "net.jafama:jafama:$jafamaVersion"
+    api "org.geotools:gt-main:$geotoolsVersion"
+    api "com.google.firebase:firebase-admin:$firebaseAdminVersion"
+    api "org.simplejavamail:simple-java-mail:$simpleJavaMailVersion"
+    api "io.swagger.core.v3:swagger-jaxrs2:$swaggerVersion"
+    api "org.openjdk.nashorn:nashorn-core:$nashornVersion"
+
+    api ("io.netty:netty-codec-http:$nettyVersion") {
+        force = true
+    }
+
+    api ("io.moquette:moquette-broker:$moquetteVersion") {
+        exclude module: "slf4j-log4j12" // Don't want log4J
+    }
+
+    api("org.quartz-scheduler:quartz:$quartzVersion") {
+        exclude group: "c3p0"
+    }
+}
+
+// Load version properties file and use same version as source code
+def props = new Properties()
+file("src/main/resources/system.properties").withInputStream { props.load(it) }
+version = props.get("version")
+
+jar {
+    archivesBaseName = "openremote-${project.name}"
+}
+
+distributions {
+    main {
+        contents {
+            from(project.projectDir) {
+                include("*Dockerfile")
+            }
+            into ("web") {
+                from("${rootDir}/LICENSE.txt")
+            }
+            into ("web") {
+                from("${projectDir}/src/web")
+            }
+            into ("map") {
+                from("${projectDir}/src/map")
+            }
+        }
+    }
+}

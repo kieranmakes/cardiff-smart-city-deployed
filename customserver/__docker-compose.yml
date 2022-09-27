@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  web:
+    # platform: linux/amd64
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - browserless
+  browserless:
+    image: browserless/chrome:latest
+    ports:
+      - "3000:3000"
+
+

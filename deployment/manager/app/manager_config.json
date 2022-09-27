@@ -1,0 +1,12 @@
+{
+  "realms": {
+    "default": {
+      "appTitle": "Cardiff Smart City",
+      "styles": ":host > * {--or-app-color2: #e8e3e4; --or-app-color4: #d83346;}",
+      "logo": "/images/logo.png",
+      "logoMobile": "/images/logo-mobile.png",
+      "favicon": "/images/favicon.png",
+      "language": "en"
+    }
+  }
+}
