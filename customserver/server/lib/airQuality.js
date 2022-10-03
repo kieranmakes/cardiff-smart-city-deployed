@@ -207,7 +207,7 @@ module.exports = function airQuality(
   jsonFilePath,
   jsonLatestAirQualityFilePath
 ) {
-  setInterval(() => {
+const f = () => {
     downloadCSVAirQualityData(csvFilePath)
       .then(() => {
         csvParse(csvFilePath, jsonFilePath).then(() => {
@@ -231,5 +231,7 @@ module.exports = function airQuality(
         console.log("In the reject");
         console.log(e);
       });
-  }, timeInterval);
+}
+	f();
+  setInterval(f, timeInterval);
 };

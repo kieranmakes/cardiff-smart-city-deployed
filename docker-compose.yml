@@ -153,6 +153,7 @@ volumes:
   postgresql-data:
   btmesh-data:
   deployment:
+  airquality:
 
 services:
 
@@ -165,6 +166,8 @@ services:
       - "8182:8080"
     depends_on:
       - browserless
+    volumes:
+      - airquality:/customserver/server/tmp
   browserless:
     restart: always
     image: browserless/chrome:latest
